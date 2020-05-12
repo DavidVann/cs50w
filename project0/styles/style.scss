@@ -1,0 +1,33 @@
+$p-color: green;
+$p-ol-color: red;
+
+@media screen and (max-width: 600px) {
+    p {
+        color: orange
+    }
+}
+
+body {
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+nav {
+    text-align: center;
+}
+
+.nested-list{
+    color: $p-color;
+
+    ul {
+        color: $p-ol-color;
+    }
+}
+
+#goat-pic {
+    height: 600px;
+}
+
+tr, td, th {
+    border: 1px solid black;
+}
