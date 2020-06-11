@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %}
+	Project 1 Homepage
+{% endblock %}
+
+{% block heading %}
+	CS50w Project 1 Homepage
+{% endblock %}
+
+{% block body %}
+	<form action="/search" method="POST">
+		<label for="search">Search</label>
+		<input type="text" name="query" id="search">
+	
+	</form>
+
+	<p>This the web application for CS50w Project 1.</p>
+
+	<p>
+		You should be able to register for the website, log in, and log out. You should be able
+		to search for books from a database of 5000 books by ISBN, title, or author. You should
+		be able to leave a review for a book (score and text), and you should be able to see
+		the average rating and number of ratings the book has from Goodreads.
+	</p>
+
+	<p>
+		Lastly, the website should be programmed to return a JSON response containing book info
+		as part of an API.
+	</p>
+
+{% endblock %}
