@@ -6,6 +6,7 @@
     </head>
     <nav>
         <ul>
+                <li><a href="{{ url_for('index') }}">Home</a></li>
             {% if session.user_id %}
                 <li><span>{{ session['username'] }}</span></li>
                 <li><a href="{{ url_for('logout') }}">Log Out</a></li>
