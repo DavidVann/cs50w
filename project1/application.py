@@ -1,7 +1,7 @@
 import os
 import requests
 
-from flask import Flask, session, render_template, url_for, request, redirect, flash
+from flask import Flask, session, render_template, url_for, request, redirect, flash, jsonify
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -36,6 +36,9 @@ def get_reviews(book_id):
     return reviews
 
 def get_goodreads(isbn):
+    """
+    Returns Goodreads average rating and rating count, in that order.
+    """
     try:
         req = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "VTUIZDIx3LSTlXn1euBKg", "isbns":isbn})
         req.raise_for_status()
@@ -169,4 +172,38 @@ def book_reviews(isbn):
     
     
     return render_template('book.html', book=book, reviews=reviews, goodreads_ratings=goodreads_ratings)
+
+@app.route("/api/<isbn>")
+def book_request_api(isbn):
+    """Return JSON of book info from database."""
+    book = db.execute(
+        'SELECT * FROM books WHERE isbn = :isbn',
+        {"isbn":isbn}
+    ).fetchone()
+
+    if book is None:
+        return jsonify({"error": "No matching ISBN in database."}), 404
+    
+    else:
+        goodreads_ratings = get_goodreads(isbn)
+
+        isbn = book[1]
+        title = book[2]
+        author = book[3]
+        year = book[4]
+        average_rating = goodreads_ratings[0]
+        ratings_count = goodreads_ratings[1]
+
+        json = {
+            "title":title,
+            "author":author,
+            "year":year,
+            "isbn":isbn,
+            "review_count":ratings_count,
+            "average_score":average_rating
+        }
+
+        return jsonify(json)
+
+    
     

@@ -12,6 +12,6 @@ try:
 except requests.exceptions.HTTPError:
     print("Bad request")
 
+my_api = requests.get("http://127.0.0.1:5000/api/0553803700")
 
-print((requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "VTUIZDIx3LSTlXn1euBKg", "isbns":"0553803700"}).json()))
-
+print(my_api.json())
