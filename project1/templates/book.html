@@ -2,7 +2,7 @@
 
 {% block title %}
 	{% block heading %}
-		Book Reviews - {{ book[2] }}, {{ book[3] }}
+		Book Reviews: <cite>{{ book[2] }}</cite> - {{ book[3] }}
 	{% endblock %}
 {% endblock %}
 
@@ -10,9 +10,9 @@
 	<form method="POST">
 		<ul>
 			<li><label for "review_score">Score:</label></li>
-			<li><input type="number" name="review_score" id="review_score" min="1" max="5" placeholder="1-5"></li>
+			<li><input type="number" name="review_score" id="review_score" min="1" max="5" placeholder="1-5" required></li>
 			<li><label for="review_text">Write a review:</label></li>
-			<li><textarea name="review_text" id="review_text" rows="10" cols="40"></textarea></li>
+			<li><textarea name="review_text" id="review_text" rows="10" cols="40" required></textarea></li>
 			<li><input type="submit" value="Submit"></li>
 		</ul>
 	</form>
