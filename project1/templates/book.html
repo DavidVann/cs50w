@@ -2,14 +2,14 @@
 
 {% block title %}
 	{% block heading %}
-		Book Reviews: <cite>{{ book[2] }}</cite> - {{ book[3] }}
+		Book Reviews: {{ book[2] }} - {{ book[3] }}
 	{% endblock %}
 {% endblock %}
 
 {% block body %}
 	<form method="POST">
 		<ul>
-			<li><label for "review_score">Score:</label></li>
+			<li><label for="review_score">Score:</label></li>
 			<li><input type="number" name="review_score" id="review_score" min="1" max="5" placeholder="1-5" required></li>
 			<li><label for="review_text">Write a review:</label></li>
 			<li><textarea name="review_text" id="review_text" rows="10" cols="40" required></textarea></li>
@@ -17,6 +17,18 @@
 		</ul>
 	</form>
 	
+	<hr>
+	<h2>Goodreads Info</h2>
+	{% if goodreads_ratings|length == 2 %}
+		<ul>
+			<li>Average rating: {{ goodreads_ratings[0] }}</li>
+			<li>Number of ratings: {{ goodreads_ratings[1] }}</li>
+		</ul>
+	{% else %}
+		{{ goodreads_ratings[0] }}
+
+	{% endif %}
+
 	{% for review in reviews %}
 		<hr>
 		<h2>{{ review[0] }} at {{ review[3] }}</h2>

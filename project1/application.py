@@ -1,4 +1,5 @@
 import os
+import requests
 
 from flask import Flask, session, render_template, url_for, request, redirect, flash
 from flask_session import Session
@@ -34,6 +35,18 @@ def get_reviews(book_id):
     
     return reviews
 
+def get_goodreads(isbn):
+    try:
+        req = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "VTUIZDIx3LSTlXn1euBKg", "isbns":isbn})
+        req.raise_for_status()
+    except requests.exceptions.HTTPError:
+        return ("No Goodreads listing for this book.")
+
+    gr_info = req.json()
+    average_rating = gr_info['books'][0]['average_rating']
+    ratings_count = gr_info['books'][0]['work_ratings_count']
+
+    return (average_rating, ratings_count)
 
 @app.route("/")
 def index():
@@ -125,6 +138,7 @@ def book_reviews(isbn):
     
     book_id = book[0]
     
+    goodreads_ratings = get_goodreads(isbn)
     reviews = get_reviews(book_id)
     
     # Code for writing a new review
@@ -154,5 +168,5 @@ def book_reviews(isbn):
             
     
     
-    return render_template('book.html', book=book, reviews=reviews)
+    return render_template('book.html', book=book, reviews=reviews, goodreads_ratings=goodreads_ratings)
     
